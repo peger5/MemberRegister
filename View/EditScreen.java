@@ -1,5 +1,7 @@
 package View;
 
+import Model.Member;
+
 
 /*
  * View class responsible for the user interface used by the EditMember controller
@@ -45,6 +47,17 @@ public class EditScreen extends Console {
 			}
 			}
 	}
+	
+	public void printBoatChoices(Member a_member){
+		for (int i = 0; i < a_member.getBoatsNumber(); i++) {
+			System.out.print(i + 1 + ". ");
+			System.out
+					.println(a_member.getBoat(i).getBoatType()
+							+ " "
+							+ a_member.getBoat(i)
+									.getBoatLength());
+		}
+	}
 
 	public void showEditOptions() {
 		System.out.println("1. Edit name");
@@ -60,6 +73,10 @@ public class EditScreen extends Console {
 
 	public void showError() {
 		System.out.println("Member number not found!");
+	}
+	
+	public void showBoatError(){
+		System.out.println("Boat not found!");
 	}
 
 	public void newNamePrompt() {

@@ -12,7 +12,7 @@ import View.EditScreen;
  */
 public class EditMember {
 
-	private int memberPosition;
+	private int memberPosition = -1;
 	private int boatPosition;
 
 	/*
@@ -27,12 +27,12 @@ public class EditMember {
 
 		for (int i = 0; i < list.size(); i++) { // search the position of
 
-			  if (memberNumberSearch == list.get(i).getMemberNumber() || list.size()==1) {
+			  if (memberNumberSearch == list.get(i).getMemberNumber()) {
 				memberPosition = i;
 				es.showEditOptions();
-				break;
+			
 			  }
-				else if (i == list.size()-1) {
+				else if (i == list.size()-1 && memberPosition==-1) {
 				es.showError();
 				selectMember(list, es);
 			}
@@ -130,14 +130,7 @@ public class EditMember {
 	 * Method for boat displaying
 	 */
 	public void boatList(RegisterList list, EditScreen es) {
-		for (int i = 0; i < list.get(memberPosition).getBoatsNumber(); i++) {
-			System.out.print(i + 1 + ". ");
-			System.out
-					.println(list.get(memberPosition).getBoat(i).getBoatType()
-							+ " "
-							+ list.get(memberPosition).getBoat(i)
-									.getBoatLength());
-		}
+		es.printBoatChoices(list.get(memberPosition));
 	}
 
 	/*
@@ -147,6 +140,10 @@ public class EditMember {
 		Scanner scan = new Scanner(System.in);
 		es.selectBoatToEdit();
 		boatPosition = scan.nextInt() - 1;
+		if(list.get(memberPosition).getBoat(boatPosition)==null){
+			es.showBoatError();
+			selectBoat(list,es);
+		}
 	}
 
 	/*
@@ -166,9 +163,7 @@ public class EditMember {
 	 * Method for editing the type of the previously selected boat
 	 */
 	public void changeBoatType(RegisterList list, EditScreen es) {
-		// Scanner scan = new Scanner(System.in);
 		es.editBoatTypePrompt();
-		// int newType = scan.nextInt();
 		switch (es.getBoatTypeEvent()) {
 		case Sailboat:
 			list.get(memberPosition).getBoat(boatPosition)
